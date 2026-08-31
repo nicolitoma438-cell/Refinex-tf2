@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refinex.tf2</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 10%, #18251d, transparent 30%),
+        radial-gradient(circle at 85% 90%, #171326, transparent 30%),
+        #080a0d;
+    color: #eee;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    height: 68px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    background: #101419;
+    border-bottom: 1px solid #292e34;
+}
+
+.logo {
+    color: #67df8d;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    padding: 55px 20px 35px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(34px, 7vw, 55px);
+}
+
+.hero h1 span {
+    color: #67df8d;
+}
+
+.hero p {
+    color: #858d95;
+}
+
+.deposit-bar {
+    width: 92%;
+    max-width: 900px;
+    margin: 0 auto 20px;
+    padding: 18px 20px;
+    background: #11161a;
+    border: 1px solid #29332d;
+    border-radius: 11px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.deposit-info strong {
+    display: block;
+    font-size: 12px;
+    color: #67df8d;
+    letter-spacing: .5px;
+}
+
+.deposit-info span {
+    display: block;
+    margin-top: 5px;
+    color: #777f87;
+    font-size: 13px;
+}
+
+.deposit-button {
+    width: auto;
+    min-width: 150px;
+    margin: 0;
+    background: #389760;
+}
+
+.stock-bar {
+    width: 92%;
+    max-width: 900px;
+    margin: 0 auto 20px;
+    padding: 15px 18px;
+    background: #11161a;
+    border: 1px solid #29332d;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stock-title {
+    color: #67df8d;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.stock-number {
+    color: white;
+    font-size: 17px;
+}
+
+.stock-item {
+    color: #777f87;
+    font-size: 13px;
+}
+
+.market {
+    width: 92%;
+    max-width: 900px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: #13171b;
+    border: 1px solid #2a3036;
+    border-radius: 13px;
+    padding: 24px;
+    transition: .25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #454c54;
+    box-shadow: 0 15px 45px rgba(0,0,0,.3);
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.sell h2 {
+    color: #ed6b6b;
+}
+
+.buy h2 {
+    color: #67df8d;
+}
+
+.description {
+    color: #777f87;
+    font-size: 13px;
+    margin: 7px 0 24px;
+}
+
+label {
+    display: block;
+    color: #9299a1;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    height: 47px;
+    background: #0a0d11;
+    color: white;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 0 13px;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #67df8d;
+}
+
+.details {
+    margin-top: 18px;
+    background: #0c1014;
+    border: 1px solid #252b31;
+    border-radius: 9px;
+    overflow: hidden;
+}
+
+.row {
+    min-height: 47px;
+    padding: 12px 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+    border-bottom: 1px solid #20252a;
+    font-size: 13px;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.label-text {
+    color: #777f87;
+}
+
+.value {
+    color: #eee;
+    text-align: right;
+}
+
+.total {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.sell .total {
+    color: #ed6b6b;
+}
+
+.buy .total {
+    color: #67df8d;
+}
+
+button {
+    width: 100%;
+    height: 46px;
+    margin-top: 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .15s;
+}
+
+button:hover {
+    filter: brightness(1.12);
+}
+
+button:active {
+    transform: scale(.97);
+}
+
+.sell button {
+    background: #a84747;
+}
+
+.buy button {
+    background: #389760;
+}
+
+.status {
+    width: fit-content;
+    margin: 25px auto 60px;
+
+    padding: 9px 16px;
+
+    background: #10151a;
+    border: 1px solid #29332d;
+    border-radius: 25px;
+
+    color: #858d95;
+    font-size: 13px;
+}
+
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+
+    background: #67df8d;
+    border-radius: 50%;
+
+    margin-right: 7px;
+    box-shadow: 0 0 9px #67df8d;
+}
+
+footer {
+    border-top: 1px solid #20252a;
+    padding: 25px;
+
+    text-align: center;
+    color: #626970;
+    font-size: 12px;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,.78);
+    backdrop-filter: blur(5px);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 450px;
+
+    background: #13171b;
+    border: 1px solid #343b42;
+    border-radius: 15px;
+
+    padding: 25px;
+
+    box-shadow: 0 25px 80px rgba(0,0,0,.55);
+
+    animation: popup .2s ease;
+}
+
+@keyframes popup {
+    from {
+        opacity: 0;
+        transform: scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal h2 {
+    margin: 0 0 10px;
+}
+
+.modal p {
+    color: #858d95;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.modal-info {
+    margin: 20px 0;
+
+    padding: 15px;
+
+    background: #0c1014;
+    border: 1px solid #252b31;
+    border-radius: 9px;
+}
+
+.modal-info strong {
+    color: #67df8d;
+}
+
+.modal-info span {
+    color: #858d95;
+    font-size: 13px;
+}
+
+.cancel {
+    background: #242a30 !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.pending {
+    margin-top: 18px;
+    padding: 13px;
+
+    background: #17150d;
+    border: 1px solid #494125;
+    border-radius: 8px;
+
+    color: #d5bd67;
+    font-size: 13px;
+}
+
+.success {
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 42px;
+    color: #67df8d;
+}
+
+@media (max-width: 650px) {
+
+    .market {
+        grid-template-columns: 1fr;
+    }
+
+    .deposit-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .deposit-button {
+        width: 100%;
+    }
+
+    .stock-bar {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Refinex.tf2</div>
+</header>
+
+<section class="hero">
+    <h1>TF2 <span>Refined</span> Market</h1>
+    <p>Buy and sell refined metal quickly.</p>
+</section>
+
+<!-- DEPOSIT -->
+
+<div class="deposit-bar">
+
+    <div class="deposit-info">
+        <strong>YOUR DEPOSIT</strong>
+        <span id="depositStatus">
+            No Refined deposited
+        </span>
+    </div>
+
+    <button
+        class="deposit-button"
+        onclick="openDeposit()">
+        DEPOSIT REFINED
+    </button>
+
+</div>
+
+<!-- STOCK -->
+
+<div class="stock-bar">
+
+    <span class="stock-title">
+        STOCK
+    </span>
+
+    <strong class="stock-number">
+        0 / 300
+    </strong>
+
+    <span class="stock-item">
+        Refined Metal
+    </span>
+
+</div>
+
+<section class="market">
+
+<!-- SELL -->
+
+<div class="card sell">
+
+    <h2>Sell</h2>
+
+    <div class="description">
+        Sell your refined metal to us.
+    </div>
+
+    <label>Refined Metal</label>
+
+    <input
+        id="sellAmount"
+        type="number"
+        min="1"
+        step="1"
+        placeholder="Enter amount"
+        oninput="updateSell()"
+    >
+
+    <div class="details">
+
+        <div class="row">
+            <span class="label-text">
+                You Receive
+            </span>
+
+            <span class="value total">
+                $<span id="sellTotal">0</span> USDC
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label-text">
+                Rate
+            </span>
+
+            <span class="value">
+                0.2
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label-text">
+                Value
+            </span>
+
+            <span class="value">
+                0.2
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label-text">
+                Estimated processing time
+            </span>
+
+            <span class="value">
+                5-10 min
+            </span>
+        </div>
+
+    </div>
+
+    <button onclick="openDeposit()">
+        SELL REFINED
+    </button>
+
+</div>
+
+
+<!-- BUY -->
+
+<div class="card buy">
+
+    <h2>Buy</h2>
+
+    <div class="description">
+        Buy refined metal from us.
+    </div>
+
+    <label>Refined Metal</label>
+
+    <input
+        id="buyAmount"
+        type="number"
+        min="1"
+        step="1"
+        placeholder="Enter amount"
+        oninput="updateBuy()"
+    >
+
+    <div class="details">
+
+        <div class="row">
+            <span class="label-text">
+                You Pay
+            </span>
+
+            <span class="value total">
+                $<span id="buyTotal">0</span> USDC
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label-text">
+                Rate
+            </span>
+
+            <span class="value">
+                0.3
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label-text">
+                Value
+            </span>
+
+            <span class="value">
+                0.3
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label-text">
+                Estimated processing time
+            </span>
+
+            <span class="value">
+                5-10 min
+            </span>
+        </div>
+
+    </div>
+
+    <button onclick="buyOrder()">
+        BUY REFINED
+    </button>
+
+</div>
+
+</section>
+
+<div class="status">
+    <span class="dot"></span>
+    Market online
+</div>
+
+<footer>
+    Refinex.tf2 · TF2 Refined Metal Market
+</footer>
+
+
+<!-- DEPOSIT MODAL -->
+
+<div class="modal" id="depositModal">
+
+    <div class="modal-box">
+
+        <!-- STEP 1 -->
+
+        <div id="depositStep1">
+
+            <h2>Deposit Refined</h2>
+
+            <p>
+                Enter your Steam Trade URL to start the deposit.
+            </p>
+
+            <div class="modal-info">
+                <strong id="depositAmount">
+                    0 Refined
+                </strong>
+
+                <br>
+
+                <span>
+                    This amount must be verified after the trade.
+                </span>
+            </div>
+
+            <label>
+                Steam Trade URL
+            </label>
+
+            <input
+                id="tradeUrl"
+                type="url"
+                placeholder="https://steamcommunity.com/tradeoffer/new/..."
+            >
+
+            <button
+                class="buy"
+                onclick="continueDeposit()">
+                CONTINUE
+            </button>
+
+            <button
+                class="cancel"
+                onclick="closeDeposit()">
+                CANCEL
+            </button>
+
+        </div>
+
+
+        <!-- STEP 2 -->
+
+        <div id="depositStep2" class="hidden">
+
+            <h2>Deposit Submitted</h2>
+
+            <p>
+                Complete the Steam trade, then wait for the deposit
+                to be verified.
+            </p>
+
+            <div class="pending">
+                Waiting for Steam verification...
+            </div>
+
+            <button
+                class="buy"
+                onclick="checkDeposit()">
+                CHECK DEPOSIT
+            </button>
+
+            <button
+                class="cancel"
+                onclick="closeDeposit()">
+                CLOSE
+            </button>
+
+        </div>
+
+
+        <!-- STEP 3 -->
+
+        <div id="depositStep3" class="hidden success">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h2>Deposit Verified</h2>
+
+            <p>
+                Your refined metal has been verified.
+            </p>
+
+            <div class="modal-info">
+
+                <strong>
+                    <span id="verifiedAmount">
+                        0
+                    </span>
+                    Refined deposited
+                </strong>
+
+            </div>
+
+            <button
+                class="buy"
+                onclick="closeDeposit()">
+                CLOSE
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const BUY_RATE = 0.003;
+const SELL_RATE = 0.002;
+
+let depositAmount = 0;
+
+
+/* SELL */
+
+function updateSell() {
+
+    const amount =
+        Number(
+            document.getElementById("sellAmount").value
+        ) || 0;
+
+    const total =
+        amount * SELL_RATE;
+
+    document.getElementById("sellTotal").textContent =
+        total.toFixed(3);
+}
+
+
+/* BUY */
+
+function updateBuy() {
+
+    const amount =
+        Number(
+            document.getElementById("buyAmount").value
+        ) || 0;
+
+    const total =
+        amount * BUY_RATE;
+
+    document.getElementById("buyTotal").textContent =
+        total.toFixed(3);
+}
+
+
+/* OPEN DEPOSIT */
+
+function openDeposit() {
+
+    const sellAmount =
+        Number(
+            document.getElementById("sellAmount").value
+        ) || 0;
+
+    depositAmount = sellAmount;
+
+    if (depositAmount < 1) {
+
+        alert("Enter the amount of Refined you want to deposit.");
+
+        return;
+    }
+
+    document.getElementById("depositAmount").textContent =
+        depositAmount + " Refined";
+
+    document.getElementById("depositModal").style.display =
+        "flex";
+
+    showStep(1);
+}
+
+
+/* CLOSE */
+
+function closeDeposit() {
+
+    document.getElementById("depositModal").style.display =
+        "none";
+}
+
+
+/* CHANGE STEP */
+
+function showStep(step) {
+
+    document.getElementById("depositStep1")
+        .classList.add("hidden");
+
+    document.getElementById("depositStep2")
+        .classList.add("hidden");
+
+    document.getElementById("depositStep3")
+        .classList.add("hidden");
+
+
+    if (step === 1) {
+
+        document.getElementById("depositStep1")
+            .classList.remove("hidden");
+
+    }
+
+    if (step === 2) {
+
+        document.getElementById("depositStep2")
+            .classList.remove("hidden");
+
+    }
+
+    if (step === 3) {
+
+        document.getElementById("depositStep3")
+            .classList.remove("hidden");
+
+    }
+}
+
+
+/* TRADE URL */
+
+function continueDeposit() {
+
+    const url =
+        document.getElementById("tradeUrl").value.trim();
+
+    if (!url) {
+
+        alert("Enter your Steam Trade URL.");
+
+        return;
+    }
+
+    if (!url.includes("steamcommunity.com/tradeoffer")) {
+
+        alert("Please enter a valid Steam Trade URL.");
+
+        return;
+    }
+
+    showStep(2);
+}
+
+
+/* CHECK */
+
+function checkDeposit() {
+
+    /*
+      IMPORTANT:
+      This is intentionally NOT pretending that Steam
+      confirmed the trade.
+
+      Real verification requires a secure backend
+      connected to Steam.
+    */
+
+    alert(
+        "Deposit verification is waiting for the Steam backend."
+    );
+}
+
+
+/* BUY */
+
+function buyOrder() {
+
+    const amount =
+        Number(
+            document.getElementById("buyAmount").value
+        );
+
+    if (!amount || amount < 1) {
+
+        alert("Enter an amount first.");
+
+        return;
+    }
+
+    const total =
+        amount * BUY_RATE;
+
+    alert(
+        "BUY ORDER\n\n" +
+        "Refined: " + amount + "\n" +
+        "You pay: $" +
+        total.toFixed(3) +
+        " USDC"
+    );
+}
+
+</script>
+
+</body>
+</html>
